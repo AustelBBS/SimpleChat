@@ -12,9 +12,6 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     {
         try {
-            mSocket = IO.socket("http://192.168.1.70:3000");
+            mSocket = IO.socket("http://172.18.16.197:3000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -66,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(mensaje)) return;
         entrada.setText("");
         //Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-        String key = cesar.encrypt(mensaje, 6, '<');
-        historial.append(mensaje);
+        int seed = cesar.getSeed(-15, 15);
+        String key = cesar.encrypt(mensaje, seed);
+
         mSocket.emit("chat message", key);
     }
 
