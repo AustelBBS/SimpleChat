@@ -62,11 +62,13 @@ public class MainActivity extends AppCompatActivity {
         String mensaje = entrada.getText().toString();
         if (TextUtils.isEmpty(mensaje)) return;
         entrada.setText("");
-        //Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+
         int seed = cesar.getSeed(-15, 15);
         String key = cesar.encrypt(mensaje, seed);
 
-        mSocket.emit("chat message", key);
+        mSocket.emit("seed", seed); // manda la semilla de cifrado para descifrar el mensaje
+        mSocket.emit("chat message", key);//manda el mensaje cifrado
+
     }
 
     private void agregarMensaje(String username, String mensaje) {
